@@ -305,9 +305,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -863336917125596233, guid: f8478f68aec655b42a9ba89f0159bb5a,
         type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: ac54cd8e0b57e2144897c077be7e9b52, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059845954712732541, guid: f8478f68aec655b42a9ba89f0159bb5a,
+        type: 3}
+      propertyPath: m_Name
+      value: Nose Cone
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685886340689465275, guid: f8478f68aec655b42a9ba89f0159bb5a,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 48
+      objectReference: {fileID: 0}
     - target: {fileID: 7288870247434851524, guid: f8478f68aec655b42a9ba89f0159bb5a,
         type: 3}
       propertyPath: m_LocalPosition.x
