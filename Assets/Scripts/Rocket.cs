@@ -7,6 +7,7 @@ public class Rocket : MonoBehaviour
 {
     Rigidbody rigidBody;
     float velocity = 3;
+    float rotation = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -28,11 +29,11 @@ public class Rocket : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A))
         {
-            print("A pressed");
+            transform.Rotate(new Vector3(0, 0, rotation));
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            print("D pressed");
+            transform.Rotate(new Vector3(0, 0, -rotation));
         }
     }
 }
