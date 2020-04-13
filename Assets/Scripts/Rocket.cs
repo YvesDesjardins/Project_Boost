@@ -7,8 +7,8 @@ public class Rocket : MonoBehaviour
 {
     Rigidbody rigidBody;
     AudioSource audioSource;
-    float velocity = 2;
-    float rotation = 1;
+    [SerializeField] float velocity = 100f;
+    [SerializeField] float rotation = 50f;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,8 @@ public class Rocket : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W))
         {
-            rigidBody.AddRelativeForce(new Vector3(0, velocity));
+            float thrustThisFrame = velocity * Time.deltaTime;
+            rigidBody.AddRelativeForce(Vector3.up * thrustThisFrame);
             // prevent audio from layering
             if (!audioSource.isPlaying)
             {
@@ -47,15 +48,19 @@ public class Rocket : MonoBehaviour
     }
     private void Rotate()
     {
-        rigidBody.freezeRotation = true;
+        float rotationThisFrame;
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(new Vector3(0, 0, rotation));
+            rigidBody.freezeRotation = true;
+            rotationThisFrame = rotation * Time.deltaTime;
+            transform.Rotate(Vector3.forward * rotationThisFrame);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(new Vector3(0, 0, -rotation));
+            rigidBody.freezeRotation = true;
+            rotationThisFrame = rotation * Time.deltaTime;
+            transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
 
         rigidBody.freezeRotation = false;
