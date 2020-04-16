@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
@@ -7,6 +8,8 @@ public class Rocket : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] float velocity = 100f;
     [SerializeField] float rotation = 50f;
+    enum State { Alive, Dying, Transcending };
+    State state = State.Alive;
 
     // Start is called before the first frame update
     void Start()
@@ -23,25 +26,48 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        switch (collision.gameObject.tag)
+        if (state == State.Alive)
         {
-            case "Friendly":
-                break;
-            case "Finish":
-                print("hit finish");
-                SceneManager.LoadScene(1);
-                break;
-            default:
-                print("boom");
-                SceneManager.LoadScene(0);
-                break;
+            switch (collision.gameObject.tag)
+            {
+                case "Friendly":
+                    break;
+                case "Finish":
+                    print("hit finish");
+                    state = State.Transcending;
+                    Invoke("LoadNextScene", 1f); // delays load of the method after 1 second
+                    break;
+                default:
+                    print("boom");
+                    state = State.Dying;
+                    Invoke("LoadNextScene", 1f);
+                    audioSource.Stop();
+                    break;
+            }
         }
+    }
+
+    private void LoadNextScene()
+    {
+        int nextScene;
+        if (state == State.Transcending)
+        {
+            nextScene = 1;
+        }
+        else
+        {
+            nextScene = 0;
+        }
+        SceneManager.LoadScene(nextScene);
     }
 
     private void ProcessInput()
     {
-        Thrust();
-        Rotate();
+        if (state == State.Alive)
+        {
+            Thrust();
+            Rotate();
+        }
     }
 
     private void Thrust()
