@@ -8,6 +8,7 @@ public class Rocket : MonoBehaviour {
     [SerializeField] float velocity = 100f;
     [SerializeField] float rotation = 50f;
     [SerializeField] AudioClip mainEngine, death, win;
+    [SerializeField] ParticleSystem mainEngineParticles, deathParticles, winParticles;
     enum State { Alive, Dying, Transcending };
     State state = State.Alive;
 
@@ -33,6 +34,8 @@ public class Rocket : MonoBehaviour {
                     Invoke("LoadNextScene", 1f); // delays load of the method after 1 second
                     audioSource.Stop();
                     audioSource.PlayOneShot(win);
+                    mainEngineParticles.Stop();
+                    winParticles.Play();
                     break;
                 default:
                     print("boom");
@@ -40,6 +43,8 @@ public class Rocket : MonoBehaviour {
                     Invoke("LoadNextScene", 1f);
                     audioSource.Stop();
                     audioSource.PlayOneShot(death);
+                    mainEngineParticles.Stop();
+                    deathParticles.Play();
                     break;
             }
         }
@@ -71,9 +76,11 @@ public class Rocket : MonoBehaviour {
             if (!audioSource.isPlaying) {
                 audioSource.PlayOneShot(mainEngine);
             }
+            mainEngineParticles.Play();
         }
         else {
             audioSource.Stop();
+            mainEngineParticles.Stop();
         }
     }
     private void Rotate() {
