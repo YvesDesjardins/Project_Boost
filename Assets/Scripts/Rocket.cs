@@ -8,6 +8,7 @@ public class Rocket : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] float velocity = 100f;
     [SerializeField] float rotation = 50f;
+    [SerializeField] AudioClip mainEngine, death, win;
     enum State { Alive, Dying, Transcending };
     State state = State.Alive;
 
@@ -36,12 +37,15 @@ public class Rocket : MonoBehaviour
                     print("hit finish");
                     state = State.Transcending;
                     Invoke("LoadNextScene", 1f); // delays load of the method after 1 second
+                    audioSource.Stop();
+                    audioSource.PlayOneShot(win);
                     break;
                 default:
                     print("boom");
                     state = State.Dying;
                     Invoke("LoadNextScene", 1f);
                     audioSource.Stop();
+                    audioSource.PlayOneShot(death);
                     break;
             }
         }
@@ -79,7 +83,7 @@ public class Rocket : MonoBehaviour
             // prevent audio from layering
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(mainEngine);
             }
         }
         else
