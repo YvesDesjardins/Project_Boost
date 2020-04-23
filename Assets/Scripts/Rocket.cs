@@ -7,6 +7,7 @@ public class Rocket : MonoBehaviour {
     AudioSource audioSource;
     [SerializeField] float velocity = 100f;
     [SerializeField] float rotation = 50f;
+    [SerializeField] float levelLoadDelay = 1f;
     [SerializeField] AudioClip mainEngine, death, win;
     [SerializeField] ParticleSystem mainEngineParticles, deathParticles, winParticles;
     enum State { Alive, Dying, Transcending };
@@ -31,7 +32,7 @@ public class Rocket : MonoBehaviour {
                 case "Finish":
                     print("hit finish");
                     state = State.Transcending;
-                    Invoke("LoadNextScene", 1f); // delays load of the method after 1 second
+                    Invoke("LoadNextScene", levelLoadDelay);
                     audioSource.Stop();
                     audioSource.PlayOneShot(win);
                     mainEngineParticles.Stop();
@@ -40,7 +41,7 @@ public class Rocket : MonoBehaviour {
                 default:
                     print("boom");
                     state = State.Dying;
-                    Invoke("LoadNextScene", 1f);
+                    Invoke("LoadNextScene", levelLoadDelay);
                     audioSource.Stop();
                     audioSource.PlayOneShot(death);
                     mainEngineParticles.Stop();

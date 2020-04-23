@@ -352,6 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: 100
   rotation: 50
+  levelLoadDelay: 1
   mainEngine: {fileID: 8300000, guid: ac54cd8e0b57e2144897c077be7e9b52, type: 3}
   death: {fileID: 8300000, guid: 91016f7919516834aa2ee1813217225d, type: 3}
   win: {fileID: 8300000, guid: c0cdb0e448e2bf645a8e1bfb200ba64c, type: 3}
