@@ -30,7 +30,6 @@ public class Rocket : MonoBehaviour {
                 case "Friendly":
                     break;
                 case "Finish":
-                    print("hit finish");
                     state = State.Transcending;
                     Invoke("LoadNextScene", levelLoadDelay);
                     audioSource.Stop();
@@ -39,7 +38,6 @@ public class Rocket : MonoBehaviour {
                     winParticles.Play();
                     break;
                 default:
-                    print("boom");
                     state = State.Dying;
                     Invoke("LoadNextScene", levelLoadDelay);
                     audioSource.Stop();
