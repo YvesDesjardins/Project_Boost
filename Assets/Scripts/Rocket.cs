@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Rocket : MonoBehaviour
-{
+public class Rocket : MonoBehaviour {
     Rigidbody rigidBody;
     AudioSource audioSource;
     [SerializeField] float velocity = 100f;
@@ -13,24 +12,19 @@ public class Rocket : MonoBehaviour
     State state = State.Alive;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         ProcessInput();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (state == State.Alive)
-        {
-            switch (collision.gameObject.tag)
-            {
+    private void OnCollisionEnter(Collision collision) {
+        if (state == State.Alive) {
+            switch (collision.gameObject.tag) {
                 case "Friendly":
                     break;
                 case "Finish":
@@ -51,58 +45,46 @@ public class Rocket : MonoBehaviour
         }
     }
 
-    private void LoadNextScene()
-    {
+    private void LoadNextScene() {
         int nextScene;
-        if (state == State.Transcending)
-        {
+        if (state == State.Transcending) {
             nextScene = 1;
         }
-        else
-        {
+        else {
             nextScene = 0;
         }
         SceneManager.LoadScene(nextScene);
     }
 
-    private void ProcessInput()
-    {
-        if (state == State.Alive)
-        {
+    private void ProcessInput() {
+        if (state == State.Alive) {
             Thrust();
             Rotate();
         }
     }
 
-    private void Thrust()
-    {
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W))
-        {
+    private void Thrust() {
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W)) {
             float thrustThisFrame = velocity * Time.deltaTime;
             rigidBody.AddRelativeForce(Vector3.up * thrustThisFrame);
             // prevent audio from layering
-            if (!audioSource.isPlaying)
-            {
+            if (!audioSource.isPlaying) {
                 audioSource.PlayOneShot(mainEngine);
             }
         }
-        else
-        {
+        else {
             audioSource.Stop();
         }
     }
-    private void Rotate()
-    {
+    private void Rotate() {
         float rotationThisFrame;
 
-        if (Input.GetKey(KeyCode.A))
-        {
+        if (Input.GetKey(KeyCode.A)) {
             rigidBody.freezeRotation = true;
             rotationThisFrame = rotation * Time.deltaTime;
             transform.Rotate(Vector3.forward * rotationThisFrame);
         }
-        else if (Input.GetKey(KeyCode.D))
-        {
+        else if (Input.GetKey(KeyCode.D)) {
             rigidBody.freezeRotation = true;
             rotationThisFrame = rotation * Time.deltaTime;
             transform.Rotate(-Vector3.forward * rotationThisFrame);
